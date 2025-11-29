@@ -8,6 +8,11 @@ Bug reference: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1093281
 ---
 
 ##  Issue Summary
+![alt text](https://github.com/flpmarti25/dev-code/blob/main/simplescreenrecorder/img2.png?raw=true)
+
+![alt text](https://github.com/flpmarti25/dev-code/blob/main/simplescreenrecorder/img1.png?raw=true)
+
+
 
 After upgrading to **Debian 13 (Trixie)**, the system FFmpeg version is upgraded from **5.1** to **7.x**.  
 FFmpeg 7 introduced multiple breaking changes, including the **removal of legacy channel layout macros**:
@@ -55,12 +60,16 @@ make -j$(nproc)
 If successful, you’ll see:
 
 [100%] Built target simplescreenrecorder
+![alt text](https://github.com/flpmarti25/dev-code/blob/main/simplescreenrecorder/img4.png?raw=true)
 
  ##### Qt Error (Ignore or Patch)
 ```cpp
 Found unsuitable Qt version "5.15.15" ... requires Qt 4.x
 ```
 This comes from the upstream CMake configuration assuming **Qt4**, which no longer exists on modern systems.
+
+
+![alt text](https://github.com/flpmarti25/dev-code/blob/main/simplescreenrecorder/img3.png?raw=true)
 
  ##### File to Patch (FFmpeg 7 Fix)
 Edit:
@@ -71,4 +80,10 @@ Replace any legacy channel layout usage with:
 ```cpp
 av_channel_layout_default(&m_codec_context->ch_layout,  2);
 ```
+![alt text](https://github.com/flpmarti25/dev-code/blob/main/simplescreenrecorder/img5.png?raw=true)
+
 After applying this patch and rebuilding SimpleScreenRecorder, MP3 encoding works again on **Debian 13 / FFmpeg 7.x** with no runtime errors.
+
+
+
+
